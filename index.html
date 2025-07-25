@@ -357,7 +357,10 @@
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="flex items-center">
                 <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
-                <!-- O texto "FeirasDeRua.com" foi removido daqui, mantendo apenas o logo -->
+                <!-- Nome do site pequeno ao lado do logo (apenas para mobile) -->
+                <span class="text-lg font-bold ml-2 sm:hidden">
+                    <span class="text-[var(--cor-verde-escuro)]">FeirasDeRua</span><span class="text-[var(--cor-preto-marca)]">.com</span>
+                </span>
             </a>
             <!-- Menu Hamburguer para Mobile -->
             <div id="hamburger-icon" class="hamburger-menu-icon md:hidden">
@@ -397,7 +400,7 @@
         <section id="hero" class="pt-32 pb-20 text-center">
             <div class="container mx-auto px-6">
                 <h1 class="font-bold mb-4">
-                    A sua feira livre de São Paulo, <br class="hidden md:block"> a um <span class="text-[var(--cor-preto-marca)]">clique</span> de distância.
+                    A sua feira de São Paulo, <br class="hidden md:block"> a um <span class="text-[var(--cor-preto-marca)]">clique</span> de distância.
                 </h1>
                 <p class="max-w-3xl mx-auto">
                     Explore, descubra e apaixone-se pelas feiras de rua da nossa cidade. Encontre produtos frescos, artesanato local e muito mais!
@@ -463,6 +466,7 @@
         // O ID do seu projeto Firebase.
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // Correção: Usar __initial_auth_token diretamente
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         // Inicializa o Firebase
@@ -669,6 +673,7 @@
 
         // Event listeners para o menu hamburguer
         hamburgerIcon.addEventListener('click', () => {
+            console.log('Hamburger icon clicked!'); // Debugging line
             mobileMenu.classList.add('open');
             mobileMenuOverlay.classList.add('open');
         });
