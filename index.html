@@ -256,7 +256,7 @@
             z-index: 60; /* Acima do header */
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
             transition: right 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transição elástica */
-            display: flex; /* Garante que o menu é um flex container */
+            display: flex;
             flex-direction: column;
             padding: 3rem 2rem;
             border-top-left-radius: 30px; /* Cantos arredondados */
@@ -443,7 +443,69 @@
                 </div>
             </div>
         </section>
-    </main>
+    
+<!-- Sessão Estática de Feiras de Destaque -->
+<section class="bg-[var(--cor-fundo-geral)] py-20">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-12 text-[var(--cor-preto-marca)]">Feiras em Destaque</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Card Feira 1 -->
+      <div class="feira-card">
+        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
+          Imagem Indisponível
+        </div>
+        <div class="p-6">
+          <h3>Feira da Benedito Calixto</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Praça Benedito Calixto, Pinheiros</p>
+          <p><i class="fas fa-calendar-alt"></i> Sábado</p>
+          <p class="text-base mt-2">Famosa por suas antiguidades, artesanato e música ao vivo. Um clássico paulistano!</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span>Artesanato</span>
+            <span>Gastronomia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Feira 2 -->
+      <div class="feira-card">
+        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
+          Imagem Indisponível
+        </div>
+        <div class="p-6">
+          <h3>Feira de Orgânicos do Parque da Água Branca</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Av. Francisco Matarazzo, 455, Água Branca</p>
+          <p><i class="fas fa-calendar-alt"></i> Terça, Sábado, Domingo</p>
+          <p class="text-base mt-2">Grande variedade de produtos orgânicos frescos, direto do produtor.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span>Orgânicos</span>
+            <span>Gastronomia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Feira 3 -->
+      <div class="feira-card">
+        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
+          Imagem Indisponível
+        </div>
+        <div class="p-6">
+          <h3>Feira da Liberdade</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Praça da Liberdade, Liberdade</p>
+          <p><i class="fas fa-calendar-alt"></i> Sábado, Domingo</p>
+          <p class="text-base mt-2">Culinária e cultura oriental. Experimente o famoso takoyaki e outras delícias.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span>Gastronomia</span>
+            <span>Artesanato</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
 
     <!-- Footer -->
     <footer class="bg-[var(--cor-texto-principal)] text-white py-8">
@@ -680,39 +742,27 @@
         });
 
         // Event listeners para o menu hamburguer
-        if (hamburgerIcon) {
-            hamburgerIcon.addEventListener('click', () => {
-                console.log('Hamburger icon clicked!'); // Debugging line
-                mobileMenu.classList.add('open');
-                mobileMenuOverlay.classList.add('open');
-                console.log('mobileMenu classes after click:', mobileMenu.classList);
-                console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
-            });
-        } else {
-            console.error('Hamburger icon not found in index.html');
-        }
+        hamburgerIcon.addEventListener('click', () => {
+            console.log('Hamburger icon clicked!'); // Debugging line
+            mobileMenu.classList.add('open');
+            mobileMenuOverlay.classList.add('open');
+            console.log('mobileMenu classes after click:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
+        });
 
-        if (closeMobileMenuBtn) {
-            closeMobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                mobileMenuOverlay.classList.remove('open');
-                console.log('mobileMenu classes after close:', mobileMenu.classList);
-                console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
-            });
-        } else {
-            console.error('Close mobile menu button not found in index.html');
-        }
+        closeMobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
+            console.log('mobileMenu classes after close:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
+        });
 
-        if (mobileMenuOverlay) {
-            mobileMenuOverlay.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                mobileMenuOverlay.classList.remove('open');
-                console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
-                console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
-            });
-        } else {
-            console.error('Mobile menu overlay not found in index.html');
-        }
+        mobileMenuOverlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
+            console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
+        });
 
     </script>
 </body>
