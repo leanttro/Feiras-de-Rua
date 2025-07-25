@@ -1,769 +1,292 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FeirasDeRua.com</title>
-    <!-- Favicon do Logo -->
-    <link rel="icon" href="LOGO.png" type="image/png">
-    <!-- Google Fonts: Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Paleta de Cores e Variáveis Globais (Inspiradas no LOGO.png, com laranja substituído por preto) */
-        :root {
-            --cor-preto-marca: #222222; /* Preto para substituir o laranja vibrante */
-            --cor-preto-escuro: #000000; /* Preto mais escuro para gradientes */
-            --cor-verde-claro: #8BC34A; /* Verde claro */
-            --cor-verde-escuro: #4CAF50; /* Verde escuro */
-            --cor-texto-principal: #2C3E50; /* Azul escuro quase preto para contraste */
-            --cor-texto-secundario: #7F8C8D; /* Cinza médio para detalhes */
-            --cor-fundo-geral: #ECF0F1; /* Cinza muito claro, quase branco */
-            --cor-fundo-container: #FFFFFF; /* Branco puro para cards/modais */
-            --cor-borda-input: #BDC3C7; /* Borda suave para inputs */
-            --cor-borda-foco: var(--cor-preto-marca); /* Preto para foco */
-            --cor-filtro-inativo-fundo: #DCE0E3; /* Fundo de filtro inativo */
-            --cor-sombra-leve: rgba(0, 0, 0, 0.08); /* Sombra sutil */
-            --cor-sombra-media: rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada */
-            --font-principal: 'Poppins', sans-serif; /* Fonte principal */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feiras de São Paulo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        /* Estilos Base */
-        body {
-            font-family: var(--font-principal);
-            background-color: var(--cor-fundo-geral);
-            color: var(--cor-texto-principal);
-            line-height: 1.6;
-        }
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+    }
 
-        /* Header e Navegação */
-        header {
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de animação suave */
-        }
-        header.scrolled {
-            background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 6px 20px var(--cor-sombra-media);
-            backdrop-filter: blur(12px);
-        }
+    header {
+      background-color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-        /* Estilos para links de navegação */
-        .main-nav a {
-            position: relative;
-            transition: color 0.3s ease-out;
-            font-weight: 500;
-        }
-        .main-nav a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 3px;
-            bottom: -8px; /* Mais abaixo para destaque */
-            left: 50%;
-            transform: translateX(-50%);
-            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
-            border-radius: 2px;
-            transition: width 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animação elástica */
-        }
-        .main-nav a:hover::after,
-        .main-nav a.active::after {
-            width: 100%;
-        }
-        .main-nav a.active {
-            color: var(--cor-preto-marca);
-            font-weight: 700;
-        }
+    header img {
+      height: 50px;
+    }
 
-        /* Seção Hero */
-        #hero {
-            background: linear-gradient(135deg, var(--cor-verde-claro) 0%, var(--cor-verde-escuro) 100%); /* Gradiente de fundo */
-            color: var(--cor-fundo-container);
-            padding-top: 8rem; /* Ajuste para o header fixo */
-            padding-bottom: 6rem;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra no texto */
-            position: relative;
-            overflow: hidden; /* Para garantir que elementos internos não vazem */
-        }
-        #hero::before { /* Elemento decorativo */
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 200px;
-            height: 200px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: pulse 4s infinite ease-in-out;
-        }
-        #hero::after { /* Outro elemento decorativo */
-            content: '';
-            position: absolute;
-            bottom: -70px;
-            right: -70px;
-            width: 250px;
-            height: 250px;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            animation: pulse 5s infinite reverse ease-in-out;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.8); opacity: 0.8; }
-        }
-        #hero h1 {
-            font-size: 2.8rem; /* Tamanho maior para mobile */
-            font-weight: 800; /* Extra bold */
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            animation: fadeInSlideUp 1s ease-out;
-        }
-        #hero p {
-            font-size: 1.1rem;
-            font-weight: 300; /* Light */
-            margin-bottom: 2rem;
-            animation: fadeIn 1.5s ease-out;
-        }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
 
-        /* Botões de Filtro */
-        .filter-btn {
-            background-color: var(--cor-filtro-inativo-fundo);
-            color: var(--cor-texto-secundario);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animação "pop" */
-            border-radius: 9999px; /* Pill shape */
-            font-size: 0.95rem;
-            padding: 0.8rem 1.8rem;
-            box-shadow: 0 3px 8px var(--cor-sombra-leve);
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .filter-btn:hover {
-            background-color: #CFD8DC;
-            color: var(--cor-texto-principal);
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 8px 20px var(--cor-sombra-media);
-        }
-        .filter-btn.active {
-            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
-            color: var(--cor-fundo-container);
-            font-weight: 700;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Sombra preta */
-            transform: translateY(-4px) scale(1.03);
-        }
+    .hero {
+      background-color: #69c770;
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+    }
 
-        /* Botão Principal */
-        .btn-principal {
-            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
-            color: var(--cor-fundo-container);
-            font-weight: 700;
-            padding: 1.1rem 2.5rem;
-            border-radius: 16px; /* Mais arredondado */
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animação "pop" */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra preta */
-            display: inline-block;
-            text-decoration: none; /* Remover sublinhado padrão */
-        }
-        .btn-principal:hover {
-            transform: translateY(-7px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Sombra preta */
-        }
-        .btn-principal:active {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra preta */
-        }
-        
-        /* Card da Feira */
-        .feira-card {
-            background-color: var(--cor-fundo-container);
-            border-radius: 20px; /* Cantos bem arredondados */
-            box-shadow: 0 10px 30px var(--cor-sombra-media); /* Sombra mais profunda */
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease-out;
-            display: flex; /* Para layout interno */
-            flex-direction: column;
-        }
-        .feira-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 50px var(--cor-sombra-media);
-        }
-        .feira-card img {
-            width: 100%;
-            height: 200px; /* Altura fixa para imagens */
-            object-fit: cover;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-        }
-        .feira-card .p-6 {
-            padding: 1.5rem;
-            flex-grow: 1; /* Permite que o conteúdo se expanda */
-        }
-        .feira-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--cor-texto-principal);
-            margin-bottom: 0.75rem;
-        }
-        .feira-card p {
-            font-size: 0.9rem;
-            color: var(--cor-texto-secundario);
-            margin-bottom: 0.5rem;
-        }
-        .feira-card .fa-map-marker-alt, .feira-card .fa-calendar-alt {
-            color: var(--cor-verde-escuro); /* Ícones verdes */
-            margin-right: 0.5rem;
-        }
-        .feira-card .flex-wrap span { /* Tags de categoria */
-            background-color: var(--cor-verde-claro); /* Fundo verde claro */
-            color: var(--cor-fundo-container);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.4rem 0.9rem;
-            border-radius: 9999px; /* Pill shape */
-            transition: background-color 0.3s ease;
-        }
-        .feira-card .flex-wrap span:hover {
-            background-color: var(--cor-verde-escuro);
-        }
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
 
-        /* Estilos do Menu Hamburguer (Mobile) */
-        .hamburger-menu-icon {
-            display: block; /* Visível apenas em mobile */
-            cursor: pointer;
-            font-size: 2.2rem; /* Ícone maior */
-            color: var(--cor-preto-marca); /* Cor do ícone */
-            transition: transform 0.3s ease-out;
-            padding: 0.5rem; /* Área de clique maior */
-        }
-        .hamburger-menu-icon:hover {
-            transform: scale(1.15);
-        }
+    .hero p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
 
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%; /* Inicia fora da tela */
-            width: 100%;
-            max-width: 320px; /* Largura máxima para o menu */
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.98); /* Fundo quase opaco */
-            backdrop-filter: blur(20px); /* Blur mais intenso */
-            z-index: 60; /* Acima do header */
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
-            transition: right 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transição elástica */
-            display: flex;
-            flex-direction: column;
-            padding: 3rem 2rem;
-            border-top-left-radius: 30px; /* Cantos arredondados */
-            border-bottom-left-radius: 30px;
-        }
-        .mobile-nav.open {
-            right: 0; /* Desliza para dentro da tela */
-        }
+    .hero button {
+      background-color: #000;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-        .mobile-nav .close-btn {
-            position: absolute;
-            top: 1.8rem;
-            right: 1.8rem;
-            font-size: 2.5rem; /* Ícone maior */
-            color: var(--cor-texto-principal);
-            cursor: pointer;
-            transition: transform 0.3s ease-out, color 0.3s ease-out;
-        }
-        .mobile-nav .close-btn:hover {
-            transform: rotate(90deg) scale(1.1);
-            color: var(--cor-preto-marca);
-        }
+    .filters {
+      margin: 40px auto;
+      max-width: 1000px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
-        .mobile-nav-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 5rem;
-        }
-        .mobile-nav-list li {
-            margin-bottom: 2rem;
-        }
-        .mobile-nav-list a {
-            font-size: 1.8rem; /* Links maiores */
-            font-weight: 600;
-            color: var(--cor-texto-principal);
-            text-decoration: none;
-            display: block;
-            transition: color 0.3s ease-out, transform 0.3s ease-out;
-        }
-        .mobile-nav-list a:hover,
-        .mobile-nav-list a.active {
-            color: var(--cor-preto-marca);
-            transform: translateX(10px); /* Desliza ao hover */
-        }
+    .filters h3 {
+      margin-bottom: 10px;
+    }
 
-        /* Overlay para quando o menu mobile estiver aberto */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Mais escuro */
-            z-index: 55;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease-out;
-        }
-        .overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
+    .filters .group {
+      margin-bottom: 20px;
+    }
 
-        /* Animações Gerais */
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    .filter-btn {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #f4f4f4;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
-        /* Responsividade para desktop: esconder menu hamburguer e mostrar nav principal */
-        @media (min-width: 768px) { /* md breakpoint */
-            .hamburger-menu-icon {
-                display: none;
-            }
-            .main-nav {
-                display: flex !important; /* Força a exibição no desktop */
-            }
-            .mobile-nav, .overlay {
-                display: none;
-            }
-            #hero h1 {
-                font-size: 4rem; /* Tamanho maior para desktop */
-            }
-            #hero p {
-                font-size: 1.25rem;
-            }
-        }
-    </style>
+    .filter-btn.active {
+      background-color: #000;
+      color: white;
+    }
+
+    .feiras {
+      max-width: 1000px;
+      margin: 40px auto;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feira-card {
+      flex: 1 1 30%;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+
+    .feira-card img {
+      width: 100%;
+      height: 150px;
+      background-color: #ddd;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .feira-card h4 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .feira-card p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background-color: #69c770;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+
+    .footer-section {
+      background-color: #69c770;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .footer-section button {
+      margin-top: 20px;
+      background-color: #000;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .feira-card {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-50">
+<body>
+  <header>
+    <img src="assets/logo.png" alt="Logo">
+    <nav>
+      <a href="#">Início</a>
+      <a href="#">Feiras por Zona</a>
+      <a href="#">Feiras Livres</a>
+      <a href="#">Artesanais</a>
+      <a href="#">Sobre</a>
+      <a href="#">Contato</a>
+    </nav>
+  </header>
 
-    <!-- Header -->
-    <header id="header" class="bg-white/80 backdrop-blur-sm fixed top-0 left-0 w-full z-50 shadow-sm">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center">
-                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
-                <!-- Nome do site pequeno ao lado do logo (apenas para mobile) -->
-                <span class="text-lg font-bold ml-2 sm:hidden">
-                    <span class="text-[var(--cor-verde-escuro)]">FeirasDeRua</span><span class="text-[var(--cor-preto-marca)]">.com</span>
-                </span>
-            </a>
-            <!-- Menu Hamburguer para Mobile -->
-            <div id="hamburger-icon" class="hamburger-menu-icon md:hidden">
-                <i class="fas fa-bars"></i>
-            </div>
-            <!-- Navegação principal para Desktop -->
-            <nav class="main-nav hidden md:flex items-center space-x-8 text-[var(--cor-texto-secundario)]">
-                <a href="index.html" class="hover:text-[var(--cor-preto-marca)]">Início</a>
-                <a href="gastronomia.html" class="hover:text-[var(--cor-preto-marca)]">Feiras de Rua</a>
-                <a href="feiras-livres.html" class="hover:text-[var(--cor-preto-marca)]">Feiras Livres</a>
-                <a href="anuncie.html" class="hover:text-[var(--cor-preto-marca)]">Anúncios</a>
-                <a href="sobre.html" class="hover:text-[var(--cor-preto-marca)]">Sobre</a>
-                <a href="contato.html" class="hover:text-[var(--cor-preto-marca)]">Contato</a>
-            </nav>
-        </div>
-    </header>
+  <section class="hero">
+    <h1>A sua feira de São Paulo, a um clique de distância.</h1>
+    <p>Explore, descubra e aproveite as melhores feiras da cidade.</p>
+    <button>ENCONTRE SUA FEIRA AGORA</button>
+  </section>
 
-    <!-- Menu Mobile (Off-canvas) -->
-    <div id="mobile-menu" class="mobile-nav">
-        <div id="close-mobile-menu" class="close-btn">
-            <i class="fas fa-times"></i>
-        </div>
-        <ul class="mobile-nav-list">
-            <li><a href="index.html" class="mobile-nav-link">Início</a></li>
-            <li><a href="gastronomia.html" class="mobile-nav-link">Feiras de Rua</a></li>
-            <li><a href="feiras-livres.html" class="mobile-nav-link">Feiras Livres</a></li>
-            <li><a href="anuncie.html" class="mobile-nav-link">Anúncios</a></li>
-            <li><a href="sobre.html" class="mobile-nav-link">Sobre</a></li>
-            <li><a href="contato.html" class="mobile-nav-link">Contato</a></li>
-        </ul>
+  <section class="filters">
+    <div class="group" data-type="region">
+      <h3>Escolha sua região:</h3>
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="Zona Norte">Zona Norte</button>
+      <button class="filter-btn" data-filter="Zona Sul">Zona Sul</button>
+      <button class="filter-btn" data-filter="Zona Leste">Zona Leste</button>
+      <button class="filter-btn" data-filter="Zona Oeste">Zona Oeste</button>
+      <button class="filter-btn" data-filter="Centro">Centro</button>
     </div>
-    <!-- Overlay para o menu mobile -->
-    <div id="mobile-menu-overlay" class="overlay"></div>
 
-    <main>
-        <!-- Seção Hero -->
-        <section id="hero" class="pt-32 pb-20 text-center">
-            <div class="container mx-auto px-6">
-                <h1 class="font-bold mb-4">
-                    A sua feira de São Paulo, <br class="hidden md:block"> a um <span class="text-[var(--cor-preto-marca)]">clique</span> de distância.
-                </h1>
-                <p class="max-w-3xl mx-auto">
-                    Explore, descubra e apaixone-se pelas feiras de rua da nossa cidade. Encontre produtos frescos, artesanato local e muito mais!
-                </p>
-                <a href="#feiras" class="btn-principal mt-8">Encontrar minha feira agora!</a>
-            </div>
-        </section>
-
-        <!-- Seção de Feiras e Filtros -->
-        <section id="feiras" class="py-20">
-            <div class="container mx-auto px-6">
-                <!-- Filtro Principal por Região -->
-                <div class="mb-12 p-6 bg-[var(--cor-fundo-container)] rounded-2xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-center mb-6 text-[var(--cor-texto-principal)]">Escolha sua região:</h3>
-                    <div id="region-filter-buttons" class="flex flex-wrap justify-center gap-3">
-                        <button onclick="window.filterFeiras('Toda SP', null)" class="filter-btn active">Toda SP</button>
-                        <button onclick="window.filterFeiras('Centro', null)" class="filter-btn">Centro</button>
-                        <button onclick="window.filterFeiras('Zona Leste', null)" class="filter-btn">Zona Leste</button>
-                        <button onclick="window.filterFeiras('Zona Norte', null)" class="filter-btn">Zona Norte</button>
-                        <button onclick="window.filterFeiras('Zona Oeste', null)" class="filter-btn">Zona Oeste</button>
-                        <button onclick="window.filterFeiras('Zona Sul', null)" class="filter-btn">Zona Sul</button>
-                    </div>
-                </div>
-
-                <!-- Filtro por Categoria -->
-                <div class="mb-12">
-                    <h4 class="text-xl font-semibold text-center mb-4 text-[var(--cor-texto-principal)]">Ou filtre por categoria:</h4>
-                    <div id="category-filter-buttons" class="flex flex-wrap justify-center gap-2">
-                        <button onclick="window.filterFeiras(null, 'Todas')" class="filter-btn active">Todas</button>
-                        <button onclick="window.filterFeiras(null, 'Orgânicos')" class="filter-btn">Orgânicos</button>
-                        <button onclick="window.filterFeiras(null, 'Artesanato')" class="filter-btn">Artesanato</button>
-                        <button onclick="window.filterFeiras(null, 'Gastronomia')" class="filter-btn">Gastronomia</button>
-                        <button onclick="window.filterFeiras(null, 'Flores')" class="filter-btn">Flores</button>
-                    </div>
-                </div>
-
-                <!-- Lista de Feiras -->
-                <div id="feiras-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Cards de feiras serão inseridos aqui pelo JavaScript -->
-                </div>
-            </div>
-        </section>
-    
-<!-- Sessão Estática de Feiras de Destaque -->
-<section class="bg-[var(--cor-fundo-geral)] py-20">
-  <div class="container mx-auto px-6">
-    <h2 class="text-3xl font-bold text-center mb-12 text-[var(--cor-preto-marca)]">Feiras em Destaque</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      
-      <!-- Card Feira 1 -->
-      <div class="feira-card">
-        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
-          Imagem Indisponível
-        </div>
-        <div class="p-6">
-          <h3>Feira da Benedito Calixto</h3>
-          <p><i class="fas fa-map-marker-alt"></i> Praça Benedito Calixto, Pinheiros</p>
-          <p><i class="fas fa-calendar-alt"></i> Sábado</p>
-          <p class="text-base mt-2">Famosa por suas antiguidades, artesanato e música ao vivo. Um clássico paulistano!</p>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span>Artesanato</span>
-            <span>Gastronomia</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card Feira 2 -->
-      <div class="feira-card">
-        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
-          Imagem Indisponível
-        </div>
-        <div class="p-6">
-          <h3>Feira de Orgânicos do Parque da Água Branca</h3>
-          <p><i class="fas fa-map-marker-alt"></i> Av. Francisco Matarazzo, 455, Água Branca</p>
-          <p><i class="fas fa-calendar-alt"></i> Terça, Sábado, Domingo</p>
-          <p class="text-base mt-2">Grande variedade de produtos orgânicos frescos, direto do produtor.</p>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span>Orgânicos</span>
-            <span>Gastronomia</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card Feira 3 -->
-      <div class="feira-card">
-        <div class="bg-gray-300 w-full h-48 flex items-center justify-center text-gray-600 font-semibold text-lg">
-          Imagem Indisponível
-        </div>
-        <div class="p-6">
-          <h3>Feira da Liberdade</h3>
-          <p><i class="fas fa-map-marker-alt"></i> Praça da Liberdade, Liberdade</p>
-          <p><i class="fas fa-calendar-alt"></i> Sábado, Domingo</p>
-          <p class="text-base mt-2">Culinária e cultura oriental. Experimente o famoso takoyaki e outras delícias.</p>
-          <div class="flex flex-wrap gap-2 mt-4">
-            <span>Gastronomia</span>
-            <span>Artesanato</span>
-          </div>
-        </div>
-      </div>
-
+    <div class="group" data-type="categoria">
+      <h3>Ou filtre por categoria:</h3>
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="Artesanal">Artesanal</button>
+      <button class="filter-btn" data-filter="Gastronômica">Gastronômica</button>
+      <button class="filter-btn" data-filter="Livre">Livre</button>
     </div>
-  </div>
-</section>
+  </section>
 
-</main>
+  <section class="feiras">
+    <div class="feira-card" data-region="Zona Oeste" data-categoria="Artesanal">
+      <img src="https://via.placeholder.com/300x150" alt="Imagem indisponível">
+      <h4>Feira de Benedito Calixto</h4>
+      <p>Feira de antiguidades e artesanato na Zona Oeste de SP.</p>
+      <div class="tags">
+        <span class="tag">Zona Oeste</span>
+        <span class="tag">Artesanal</span>
+      </div>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-[var(--cor-texto-principal)] text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2024 FeirasDeRua.com - Todos os direitos reservados.</p>
-            <div class="flex justify-center space-x-4 mt-4">
-                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-twitter"></i></a>
-            </div>
-        </div>
-    </footer>
+    <div class="feira-card" data-region="Zona Oeste" data-categoria="Gastronômica">
+      <img src="https://via.placeholder.com/300x150" alt="Imagem indisponível">
+      <h4>Feira Orgânica do Parque da Água Branca</h4>
+      <p>Produtos orgânicos direto do produtor em ambiente arborizado.</p>
+      <div class="tags">
+        <span class="tag">Zona Oeste</span>
+        <span class="tag">Gastronômica</span>
+      </div>
+    </div>
 
-    <script type="module">
-        // Importa as funções necessárias do Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <div class="feira-card" data-region="Centro" data-categoria="Artesanal Gastronomica">
+      <img src="https://via.placeholder.com/300x150" alt="Imagem indisponível">
+      <h4>Feira da Liberdade</h4>
+      <p>Feira oriental com comidas típicas e artesanato no bairro da Liberdade.</p>
+      <div class="tags">
+        <span class="tag">Centro</span>
+        <span class="tag">Gastronômica</span>
+        <span class="tag">Artesanal</span>
+      </div>
+    </div>
+  </section>
 
-        // O ID do seu projeto Firebase.
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        // Correção: Usar __initial_auth_token diretamente
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+  <section class="footer-section">
+    <h2>Tem uma feira para divulgar?</h2>
+    <p>Preencha nosso formulário ou envie para contato@feirasdesp.com</p>
+    <button>QUERO ADICIONAR MINHA FEIRA</button>
+  </section>
 
-        // Inicializa o Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+  <footer>
+    © 2025 FeirasDeSP.com – Todos os direitos reservados.
+  </footer>
 
-        let currentRegion = 'Toda SP';
-        let currentCategory = 'Todas';
-        let userId = null; // Para armazenar o ID do usuário
-        let isAuthReady = false; // Nova flag para indicar que a autenticação está pronta
-        let authInitialized = false; // Flag para controlar a inicialização única da lógica de autenticação
+  <script>
+    const filterGroups = document.querySelectorAll('.group');
+    let selectedFilters = {
+      region: 'all',
+      categoria: 'all'
+    };
 
-        const feirasList = document.getElementById('feiras-list');
-        const regionFilterButtons = document.querySelectorAll('#region-filter-buttons .filter-btn');
-        const categoryFilterButtons = document.querySelectorAll('#category-filter-buttons .filter-btn');
-        const header = document.getElementById('header');
-
-        // Elementos do menu mobile
-        const hamburgerIcon = document.getElementById('hamburger-icon');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
-        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-        // --- DEBUGGING: Verificar se os elementos foram encontrados ---
-        console.log('--- Debugging Menu Elements (index.html) ---');
-        console.log('hamburgerIcon:', hamburgerIcon);
-        console.log('mobileMenu:', mobileMenu);
-        console.log('closeMobileMenuBtn:', closeMobileMenuBtn);
-        console.log('mobileMenuOverlay:', mobileMenuOverlay);
-        // --- FIM DEBUGGING ---
-
-
-        // Autenticação no Firebase (anônima ou com token)
-        onAuthStateChanged(auth, async (user) => {
-            if (!authInitialized) { // Garante que a lógica abaixo só rode uma vez para a inicialização
-                if (user) {
-                    userId = user.uid;
-                    console.log("Usuário autenticado:", userId);
-                    isAuthReady = true;
-                    // Trigger initial data load and UI updates
-                    window.filterFeiras(currentRegion, currentCategory);
-                    // Ativa o link "Início" na navegação principal e mobile
-                    document.querySelector('.main-nav a[href="index.html"]').classList.add('active');
-                    document.querySelector('.mobile-nav-list a[href="index.html"]').classList.add('active');
-                } else {
-                    try {
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                            userId = auth.currentUser.uid;
-                            console.log("Autenticado com token customizado:", userId);
-                        } else {
-                            await signInAnonymously(auth);
-                            userId = auth.currentUser.uid;
-                            console.log("Autenticado anonimamente:", userId);
-                        }
-                        isAuthReady = true;
-                        // Trigger initial data load and UI updates
-                        window.filterFeiras(currentRegion, currentCategory);
-                        // Ativa o link "Início" na navegação principal e mobile
-                        document.querySelector('.main-nav a[href="index.html"]').classList.add('active');
-                        document.querySelector('.mobile-nav-list a[href="index.html"]').classList.add('active');
-                    } catch (error) {
-                        console.error("Erro na autenticação Firebase:", error);
-                        isAuthReady = false;
-                        feirasList.innerHTML = `<p class="text-red-500 col-span-full text-center">Erro de autenticação. As feiras não puderam ser carregadas.</p>`;
-                    }
-                }
-                authInitialized = true; // Marca como inicializado após a primeira execução
-            }
+    filterGroups.forEach(group => {
+      const type = group.getAttribute('data-type');
+      group.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          button.classList.add('active');
+          selectedFilters[type] = button.getAttribute('data-filter');
+          updateFeiras();
         });
+      });
+    });
 
-        function renderFeiras(feiras) {
-            feirasList.innerHTML = '';
-            if (feiras.length === 0) {
-                feirasList.innerHTML = `<p class="text-[var(--cor-texto-secundario)] col-span-full text-center text-lg mt-8">Nenhuma feira encontrada com os filtros selecionados.</p>`;
-                return;
-            }
-            feiras.forEach(feira => {
-                const card = `
-                    <div class="feira-card">
-                        <img src="${feira.imagem}" alt="Foto da ${feira.nome}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/${encodeURIComponent('DCE0E3')}/${encodeURIComponent('7F8C8D')}?text=Imagem+Indisponível';">
-                        <div class="p-6">
-                            <h3>${feira.nome}</h3>
-                            <p><i class="fas fa-map-marker-alt"></i>${feira.endereco}</p>
-                            <p><i class="fas fa-calendar-alt"></i>${feira.dias.join(', ')}</p>
-                            <p class="text-base">${feira.descricao}</p>
-                            <div class="flex flex-wrap gap-2 mt-4">
-                                ${feira.categorias.map(cat => `<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${cat}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                feirasList.innerHTML += card;
-            });
-        }
-
-        window.listenForFeiras = function() { // Torna a função global
-            if (!db || !isAuthReady) { // Verifica se o DB está inicializado e a autenticação está pronta
-                console.warn("Firestore DB ou autenticação não estão prontos. Não é possível buscar dados.");
-                return;
-            }
-
-            // Acessando a coleção no caminho correto para as regras do Firestore
-            const feirasCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'feiras');
-            let q = query(feirasCollectionRef, where("status", "==", "approved")); // Apenas feiras aprovadas
-
-            // Se a região não for "Toda SP", adiciona o filtro de região
-            if (currentRegion !== 'Toda SP') {
-                q = query(q, where("regiao", "==", currentRegion));
-            }
-
-            // Se a categoria não for "Todas", adiciona o filtro de categoria
-            if (currentCategory !== 'Todas') {
-                q = query(q, where("categorias", "array-contains", currentCategory));
-            }
-
-            // Ouve as mudanças em tempo real
-            onSnapshot(q, (snapshot) => {
-                const feiras = [];
-                snapshot.forEach((doc) => {
-                    feiras.push({ id: doc.id, ...doc.data() });
-                });
-                renderFeiras(feiras);
-            }, (error) => {
-                console.error("Erro ao buscar feiras do Firestore:", error);
-                feirasList.innerHTML = `<p class="text-red-500 col-span-full text-center">Erro ao carregar as feiras. Tente novamente mais tarde.</p>`;
-            });
-        }
-
-        window.filterFeiras = function(region, category) { // Torna a função global
-            if (region) {
-                currentRegion = region;
-                regionFilterButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.innerText === region) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            if (category) {
-                currentCategory = category;
-                categoryFilterButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.innerText === category) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            // Chama a função para ouvir as feiras novamente com os novos filtros
-            window.listenForFeiras();
-        }
-
-        // Lógica para rolagem suave para seções internas
-        document.querySelectorAll('.main-nav a, .mobile-nav-list a').forEach(link => {
-            link.addEventListener('click', function (e) {
-                // Apenas para links internos da mesma página (como o "Encontrar minha feira agora!")
-                if (this.getAttribute('href').startsWith('#')) {
-                    e.preventDefault();
-                    // Remove 'active' de todos os links de navegação principal (desktop)
-                    document.querySelectorAll('.main-nav a').forEach(l => l.classList.remove('active'));
-                    // Remove 'active' de todos os links de navegação mobile
-                    document.querySelectorAll('.mobile-nav-list a').forEach(l => l.classList.remove('active'));
-                    
-                    this.classList.add('active'); // Adiciona 'active' ao link clicado
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                        const headerHeight = header.offsetHeight;
-                        const targetPosition = targetSection.offsetTop - headerHeight - 20;
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                    // Fecha o menu mobile se estiver aberto
-                    mobileMenu.classList.remove('open');
-                    mobileMenuOverlay.classList.remove('open');
-                }
-            });
-        });
-
-        // Lógica para ativar o link de navegação da seção visível (apenas para a página index)
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            const sections = document.querySelectorAll('main section');
-            let currentSectionId = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - header.offsetHeight - 25;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-                    currentSectionId = '#' + section.id;
-                }
-            });
-
-            document.querySelectorAll('.main-nav a, .mobile-nav-list a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === 'index.html' && currentSectionId === '#hero') {
-                     link.classList.add('active');
-                } else if (link.getAttribute('href') === '#feiras' && currentSectionId === '#feiras') {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Event listeners para o menu hamburguer
-        hamburgerIcon.addEventListener('click', () => {
-            console.log('Hamburger icon clicked!'); // Debugging line
-            mobileMenu.classList.add('open');
-            mobileMenuOverlay.classList.add('open');
-            console.log('mobileMenu classes after click:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
-        });
-
-        closeMobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            mobileMenuOverlay.classList.remove('open');
-            console.log('mobileMenu classes after close:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
-        });
-
-        mobileMenuOverlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            mobileMenuOverlay.classList.remove('open');
-            console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
-        });
-
-    </script>
+    function updateFeiras() {
+      const cards = document.querySelectorAll('.feira-card');
+      cards.forEach(card => {
+        const region = card.getAttribute('data-region');
+        const categoria = card.getAttribute('data-categoria');
+        const matchRegion = selectedFilters.region === 'all' || region === selectedFilters.region;
+        const matchCategoria = selectedFilters.categoria === 'all' || categoria.includes(selectedFilters.categoria);
+        card.style.display = matchRegion && matchCategoria ? 'block' : 'none';
+      });
+    }
+  </script>
 </body>
 </html>
