@@ -256,7 +256,7 @@
             z-index: 60; /* Acima do header */
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
             transition: right 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transição elástica */
-            display: flex;
+            display: flex; /* Garante que o menu é um flex container */
             flex-direction: column;
             padding: 3rem 2rem;
             border-top-left-radius: 30px; /* Cantos arredondados */
@@ -680,27 +680,39 @@
         });
 
         // Event listeners para o menu hamburguer
-        hamburgerIcon.addEventListener('click', () => {
-            console.log('Hamburger icon clicked!'); // Debugging line
-            mobileMenu.classList.add('open');
-            mobileMenuOverlay.classList.add('open');
-            console.log('mobileMenu classes after click:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
-        });
+        if (hamburgerIcon) {
+            hamburgerIcon.addEventListener('click', () => {
+                console.log('Hamburger icon clicked!'); // Debugging line
+                mobileMenu.classList.add('open');
+                mobileMenuOverlay.classList.add('open');
+                console.log('mobileMenu classes after click:', mobileMenu.classList);
+                console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
+            });
+        } else {
+            console.error('Hamburger icon not found in index.html');
+        }
 
-        closeMobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            mobileMenuOverlay.classList.remove('open');
-            console.log('mobileMenu classes after close:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
-        });
+        if (closeMobileMenuBtn) {
+            closeMobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileMenuOverlay.classList.remove('open');
+                console.log('mobileMenu classes after close:', mobileMenu.classList);
+                console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
+            });
+        } else {
+            console.error('Close mobile menu button not found in index.html');
+        }
 
-        mobileMenuOverlay.addEventListener('click', () => {
-            mobileMenu.classList.remove('open');
-            mobileMenuOverlay.classList.remove('open');
-            console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
-            console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
-        });
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                mobileMenuOverlay.classList.remove('open');
+                console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
+                console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
+            });
+        } else {
+            console.error('Mobile menu overlay not found in index.html');
+        }
 
     </script>
 </body>
