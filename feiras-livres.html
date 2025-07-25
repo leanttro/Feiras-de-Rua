@@ -229,9 +229,8 @@
     <!-- Header -->
     <header id="header" class="bg-white/80 backdrop-blur-sm fixed top-0 left-0 w-full z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-12 w-12 rounded-full object-cover">
-                <span class="text-xl font-bold text-gray-800 hidden sm:block">FeirasDeRua<span class="text-[var(--cor-verde-marca)]">.com</span></span>
+            <a href="index.html" class="flex items-center">
+                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
             </a>
             <nav class="main-nav hidden md:flex items-center space-x-8 text-gray-600">
                 <a href="index.html" class="hover:text-[var(--cor-verde-marca)]">Início</a>
@@ -256,12 +255,12 @@
                 <div class="mb-12 p-6 bg-white rounded-xl shadow-md">
                     <h3 class="text-2xl font-bold text-center mb-6 text-gray-800">Escolha sua região:</h3>
                     <div id="region-filter-buttons" class="flex flex-wrap justify-center gap-3">
-                        <button onclick="filterFeiras('Toda SP', 'Orgânicos')" class="filter-btn active text-lg px-8 py-3 rounded-full">Toda SP</button>
-                        <button onclick="filterFeiras('Centro', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Centro</button>
-                        <button onclick="filterFeiras('Zona Leste', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Leste</button>
-                        <button onclick="filterFeiras('Zona Norte', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Norte</button>
-                        <button onclick="filterFeiras('Zona Oeste', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Oeste</button>
-                        <button onclick="filterFeiras('Zona Sul', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Sul</button>
+                        <button onclick="window.filterFeiras('Toda SP', null)" class="filter-btn active text-lg px-8 py-3 rounded-full">Toda SP</button>
+                        <button onclick="window.filterFeiras('Centro', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Centro</button>
+                        <button onclick="window.filterFeiras('Zona Leste', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Leste</button>
+                        <button onclick="window.filterFeiras('Zona Norte', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Norte</button>
+                        <button onclick="window.filterFeiras('Zona Oeste', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Oeste</button>
+                        <button onclick="window.filterFeiras('Zona Sul', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Sul</button>
                     </div>
                 </div>
 
@@ -285,70 +284,67 @@
         </div>
     </footer>
 
-    <script>
-        const feirasData = [
-            {
-                nome: 'Feira da Benedito Calixto',
-                regiao: 'Zona Oeste',
-                endereco: 'Praça Benedito Calixto, Pinheiros',
-                dias: ['Sábado'],
-                descricao: 'Famosa por suas antiguidades, artesanato e música ao vivo. Um clássico paulistano!',
-                categorias: ['Artesanato', 'Gastronomia'],
-                imagem: 'https://vejasp.abril.com.br/wp-content/uploads/2016/12/11541-pracabeneditocalixto.jpeg?quality=70&strip=info&w=1280&h=720&crop=1'
-            },
-            {
-                nome: 'Feira de Orgânicos do Parque da Água Branca',
-                regiao: 'Zona Oeste',
-                endereco: 'Av. Francisco Matarazzo, 455, Água Branca',
-                dias: ['Terça', 'Sábado', 'Domingo'],
-                descricao: 'Grande variedade de produtos orgânicos frescos, direto do produtor.',
-                categorias: ['Orgânicos', 'Gastronomia'],
-                imagem: 'https://catracalivre.com.br/wp-content/uploads/2019/07/parque-da-agua-branca-feira-de-organicos-910x607.jpg'
-            },
-            {
-                nome: 'Feira da Liberdade',
-                regiao: 'Centro',
-                endereco: 'Praça da Liberdade, Liberdade',
-                dias: ['Sábado', 'Domingo'],
-                descricao: 'Culinária e cultura oriental. Experimente o famoso takoyaki e outras delícias.',
-                categorias: ['Gastronomia', 'Artesanato'],
-                imagem: 'https://www.visitesaopaulo.com/wp-content/uploads/2017/01/feirinha-da-liberdade-foto-caio-pimenta-spturis.jpg'
-            },
-            {
-                nome: 'Feira da Praça da República',
-                regiao: 'Centro',
-                endereco: 'Praça da República, República',
-                dias: ['Sábado', 'Domingo'],
-                descricao: 'Artesanato, pedras preciosas, e uma praça de alimentação com comidas típicas.',
-                categorias: ['Artesanato', 'Gastronomia', 'Flores'],
-                imagem: 'https://www.melhoresdestinos.com.br/wp-content/uploads/2020/09/sao-paulo-feiras-republica.jpg'
-            },
-            {
-                nome: 'Feira do Bixiga (Praça Dom Orione)',
-                regiao: 'Centro',
-                endereco: 'Praça Dom Orione, Bela Vista',
-                dias: ['Domingo'],
-                descricao: 'Antiguidades, objetos de colecionador e a autêntica atmosfera do bairro italiano.',
-                categorias: ['Artesanato'],
-                imagem: 'https://www.viagemegastronomia.com.br/wp-content/uploads/2022/08/feira-do-bixiga-credito-jose-carlos-spturis.jpg'
-            },
-            {
-                nome: 'Feira de Artesanato do Center 3',
-                regiao: 'Zona Oeste',
-                endereco: 'Avenida Paulista, 2064, Cerqueira César',
-                dias: ['Domingo'],
-                descricao: 'Artesanato variado e criativo na avenida mais famosa da cidade.',
-                categorias: ['Artesanato'],
-                imagem: 'https://media.gazetadopovo.com.br/2023/04/24174829/avenida-paulista-bigstock-960x540.jpg'
-            }
-        ];
+    <script type="module">
+        // Importa as funções necessárias do Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // O ID do seu projeto Firebase.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // CORREÇÃO: Usar __initial_auth_token no lado direito
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
 
         let currentRegion = 'Toda SP';
         const fixedCategory = 'Orgânicos'; // Categoria fixa para esta página
+        let userId = null;
+        let isAuthReady = false; // Nova flag para indicar que a autenticação está pronta
+        let authInitialized = false; // Flag para controlar a inicialização única da lógica de autenticação
 
         const feirasList = document.getElementById('feiras-list');
         const regionFilterButtons = document.querySelectorAll('#region-filter-buttons .filter-btn');
         const header = document.getElementById('header');
+
+        // Autenticação no Firebase (anônima ou com token)
+        onAuthStateChanged(auth, async (user) => {
+            if (!authInitialized) { // Garante que a lógica abaixo só rode uma vez para a inicialização
+                if (user) {
+                    userId = user.uid;
+                    console.log("Usuário autenticado:", userId);
+                    isAuthReady = true;
+                    // Trigger initial data load and UI updates
+                    window.filterFeiras(currentRegion, null);
+                    document.querySelector('.main-nav a[href="feiras-livres.html"]').classList.add('active');
+                } else {
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                            userId = auth.currentUser.uid;
+                            console.log("Autenticado com token customizado:", userId);
+                        } else {
+                            await signInAnonymously(auth);
+                            userId = auth.currentUser.uid;
+                            console.log("Autenticado anonimamente:", userId);
+                        }
+                        isAuthReady = true;
+                        // Trigger initial data load and UI updates
+                        window.filterFeiras(currentRegion, null);
+                        document.querySelector('.main-nav a[href="feiras-livres.html"]').classList.add('active');
+                    } catch (error) {
+                        console.error("Erro na autenticação Firebase:", error);
+                        isAuthReady = false;
+                        feirasList.innerHTML = `<p class="text-red-500 col-span-full text-center">Erro de autenticação. As feiras não puderam ser carregadas.</p>`;
+                    }
+                }
+                authInitialized = true; // Marca como inicializado após a primeira execução
+            }
+        });
 
         function renderFeiras(feiras) {
             feirasList.innerHTML = '';
@@ -375,7 +371,36 @@
             });
         }
 
-        function filterFeiras(region, category) {
+        window.listenForFeiras = function() { // Torna a função global
+            if (!db || !isAuthReady) { // Verifica se o DB está inicializado e a autenticação está pronta
+                console.warn("Firestore DB ou autenticação não estão prontos. Não é possível buscar dados.");
+                return;
+            }
+
+            // CORREÇÃO CRÍTICA: Acessando a coleção no caminho correto para as regras do Firestore
+            const feirasCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'feiras');
+            let q = query(feirasCollectionRef, 
+                          where("status", "==", "approved"), // Apenas feiras aprovadas
+                          where("categorias", "array-contains", fixedCategory)); // Filtra pela categoria fixa
+
+            // Se a região não for "Toda SP", adiciona o filtro de região
+            if (currentRegion !== 'Toda SP') {
+                q = query(q, where("regiao", "==", currentRegion));
+            }
+
+            onSnapshot(q, (snapshot) => {
+                const feiras = [];
+                snapshot.forEach((doc) => {
+                    feiras.push({ id: doc.id, ...doc.data() });
+                });
+                renderFeiras(feiras);
+            }, (error) => {
+                console.error("Erro ao buscar feiras do Firestore:", error);
+                feirasList.innerHTML = `<p class="text-red-500 col-span-full text-center">Erro ao carregar as feiras. Tente novamente mais tarde.</p>`;
+            });
+        }
+
+        window.filterFeiras = function(region, category) { // Torna a função global
             if (region) {
                 currentRegion = region;
                 regionFilterButtons.forEach(btn => {
@@ -385,17 +410,8 @@
                     }
                 });
             }
-
-            let filteredFeiras = feirasData;
-
-            if (currentRegion !== 'Toda SP') {
-                filteredFeiras = filteredFeiras.filter(feira => feira.regiao === currentRegion);
-            }
-            
-            // Sempre filtra pela categoria fixa para esta página
-            filteredFeiras = filteredFeiras.filter(feira => feira.categorias.includes(fixedCategory));
-
-            renderFeiras(filteredFeiras);
+            // A categoria é fixa para esta página, então 'category' do parâmetro é ignorada
+            window.listenForFeiras();
         }
 
         window.addEventListener('scroll', () => {
@@ -404,11 +420,6 @@
             } else {
                 header.classList.remove('scrolled');
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            filterFeiras('Toda SP', fixedCategory); // Filtra ao carregar a página
-            document.querySelector('.main-nav a[href="feiras-livres.html"]').classList.add('active');
         });
 
     </script>

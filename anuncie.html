@@ -229,9 +229,11 @@
     <!-- Header -->
     <header id="header" class="bg-white/80 backdrop-blur-sm fixed top-0 left-0 w-full z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-12 w-12 rounded-full object-cover">
-                <span class="text-xl font-bold text-gray-800 hidden sm:block">FeirasDeRua<span class="text-[var(--cor-verde-marca)]">.com</span></span>
+            <a href="index.html" class="flex items-center">
+                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
+                <span class="text-2xl font-bold ml-2 hidden sm:block">
+                    <span class="text-[var(--cor-laranja-marca)]">FeirasDeRua</span><span class="text-gray-800">.com</span>
+                </span>
             </a>
             <nav class="main-nav hidden md:flex items-center space-x-8 text-gray-600">
                 <a href="index.html" class="hover:text-[var(--cor-verde-marca)]">Início</a>
@@ -252,6 +254,7 @@
                         <div class="text-center mb-8">
                             <h2 class="text-3xl font-bold text-gray-800">Envie sua feira para publicarmos</h2>
                             <p class="text-gray-600 mt-2">Faça parte do nosso guia e seja descoberto por milhares de pessoas!</p>
+                            <p class="text-xs text-gray-400 mt-2">Seu ID de usuário para envio: <span id="user-id-display">Carregando...</span></p>
                         </div>
                         <form id="form-cadastro">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -314,6 +317,31 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="mb-6">
+                                <label class="form-label">Categorias da Feira</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="categorias" value="Orgânicos" class="checkbox-input">
+                                        <span class="custom-checkbox"><i class="fas fa-check icon"></i></span> Orgânicos
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="categorias" value="Artesanato" class="checkbox-input">
+                                        <span class="custom-checkbox"><i class="fas fa-check icon"></i></span> Artesanato
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="categorias" value="Gastronomia" class="checkbox-input">
+                                        <span class="custom-checkbox"><i class="fas fa-check icon"></i></span> Gastronomia
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="categorias" value="Flores" class="checkbox-input">
+                                        <span class="custom-checkbox"><i class="fas fa-check icon"></i></span> Flores
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="categorias" value="Outros" class="checkbox-input">
+                                        <span class="custom-checkbox"><i class="fas fa-check icon"></i></span> Outros
+                                    </label>
+                                </div>
+                            </div>
                             <div class="mb-8">
                                 <label for="descricao-feira" class="form-label">Breve Descrição</label>
                                 <textarea id="descricao-feira" class="form-textarea" rows="4" placeholder="Fale sobre os produtos e o diferencial da sua feira..."></textarea>
@@ -322,6 +350,7 @@
                                 <button type="submit" class="btn-principal w-full md:w-auto">Cadastrar Minha Feira</button>
                             </div>
                         </form>
+                        <div id="message-box" class="hidden mt-4 p-3 rounded-lg text-center"></div>
                     </div>
                 </div>
             </div>
@@ -340,8 +369,129 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        // Importa as funções necessárias do Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // O ID do seu projeto Firebase.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let userId = null; // Para armazenar o ID do usuário
+        let isAuthReady = false; // Nova flag para indicar que a autenticação está pronta
+        let authInitialized = false; // Flag para controlar a inicialização única da lógica de autenticação
+
         const header = document.getElementById('header');
+        const formCadastro = document.getElementById('form-cadastro');
+        const messageBox = document.getElementById('message-box');
+        const userIdDisplay = document.getElementById('user-id-display');
+
+        // Autenticação no Firebase (anônima ou com token)
+        onAuthStateChanged(auth, async (user) => {
+            if (!authInitialized) { // Garante que a lógica abaixo só rode uma vez para a inicialização
+                if (user) {
+                    userId = user.uid;
+                    userIdDisplay.textContent = userId;
+                    console.log("Usuário autenticado:", userId);
+                    isAuthReady = true;
+                    document.querySelector('.main-nav a[href="anuncie.html"]').classList.add('active');
+                } else {
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                            userId = auth.currentUser.uid;
+                            userIdDisplay.textContent = userId;
+                            console.log("Autenticado com token customizado:", userId);
+                        } else {
+                            await signInAnonymously(auth);
+                            userId = auth.currentUser.uid;
+                            userIdDisplay.textContent = userId;
+                            console.log("Autenticado anonimamente:", userId);
+                        }
+                        isAuthReady = true;
+                        document.querySelector('.main-nav a[href="anuncie.html"]').classList.add('active');
+                    } catch (error) {
+                        console.error("Erro na autenticação Firebase:", error);
+                        userIdDisplay.textContent = "Erro ao carregar ID.";
+                        isAuthReady = false;
+                        showMessage("Erro de autenticação. Não é possível cadastrar a feira.", "error");
+                    }
+                }
+                authInitialized = true; // Marca como inicializado após a primeira execução
+            }
+        });
+
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+            if (type === 'success') {
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                messageBox.classList.add('bg-red-100', 'text-red-800');
+            }
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 5000); // Esconde a mensagem após 5 segundos
+        }
+
+        formCadastro.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!userId || !isAuthReady) { // Verifica se o userId está disponível e a autenticação está pronta
+                showMessage("Erro: Autenticação não concluída. Tente novamente.", "error");
+                console.error("Tentativa de submissão do formulário antes da autenticação estar pronta ou sem userId.");
+                return;
+            }
+
+            const nomeFeira = document.getElementById('nome-feira').value;
+            const regiaoFeira = document.getElementById('regiao-feira').value;
+            const enderecoFeira = document.getElementById('endereco-feira').value;
+            const imagemFeira = document.getElementById('imagem-feira').value;
+            const descricaoFeira = document.getElementById('descricao-feira').value;
+
+            const diasSelecionados = Array.from(document.querySelectorAll('input[name="dias"]:checked'))
+                                       .map(checkbox => checkbox.value);
+            const categoriasSelecionadas = Array.from(document.querySelectorAll('input[name="categorias"]:checked'))
+                                       .map(checkbox => checkbox.value);
+
+            if (diasSelecionados.length === 0 || categoriasSelecionadas.length === 0) {
+                showMessage("Por favor, selecione pelo menos um dia de funcionamento e uma categoria.", "error");
+                return;
+            }
+
+            const novaFeira = {
+                nome: nomeFeira,
+                regiao: regiaoFeira,
+                endereco: enderecoFeira,
+                imagem: imagemFeira,
+                dias: diasSelecionados,
+                categorias: categoriasSelecionadas,
+                descricao: descricaoFeira,
+                status: 'pending', // Status inicial para moderação
+                createdAt: new Date() // Timestamp de criação
+            };
+
+            try {
+                // Adicionando à coleção no caminho correto para as regras do Firestore
+                const docRef = await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'feiras'), novaFeira);
+                showMessage("Feira cadastrada com sucesso! Ela passará por moderação antes de ser publicada.", "success");
+                console.log("Documento adicionado com ID: ", docRef.id);
+                formCadastro.reset(); // Limpa o formulário
+                // Desmarca todos os checkboxes após o envio
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+            } catch (error) {
+                console.error("Erro ao cadastrar feira:", error);
+                showMessage(`Erro ao cadastrar feira: ${error.message}. Tente novamente mais tarde.`, "error");
+            }
+        });
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -349,16 +499,6 @@
             } else {
                 header.classList.remove('scrolled');
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.main-nav a[href="anuncie.html"]').classList.add('active');
-        });
-
-        document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Obrigado por cadastrar sua feira! (Funcionalidade de demonstração)');
-            this.reset();
         });
 
     </script>

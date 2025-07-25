@@ -16,7 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Chosen Palette: "Vibrante e Natural"
-          Application Structure Plan: A estrutura HTML e de navegação do site original foi mantida para preservar 100% da funcionalidade. O plano foca em uma reestilização completa (reskin). A nova arquitetura visual estabelece o filtro de região como o elemento principal através de maior destaque (cores vibrantes, tamanho), seguido pelo formulário de cadastro, que foi redesenhado para ser um ponto focal de conversão. A navegação e a listagem de feiras foram refinadas para uma aparência mais limpa e moderna, melhorando a usabilidade geral sem alterar o fluxo do usuário.
+          Application Structure Plan: A estrutura HTML e de navegação do site original foi mantida para preservar 100% da funcionalidade. O plano foca em uma reestilização completa (reskin). A nova arquitetura visual estabelece o filtro de região como o elemento principal através de maior destaque (cores vibrantes, tamanho), seguido pelo formulário de cadastro, que foi redesenhado para ser um ponto focal de conversão. A navegação e a listagem de feiras foi refinada para uma aparência mais limpa e moderna, melhorando a usabilidade geral sem alterar o fluxo do usuário.
           Visualization & Content Choices: O formulário e os filtros foram recriados usando HTML/CSS puro para replicar as imagens de referência, evitando bibliotecas externas e garantindo performance. A meta "surpreender" foi alcançada com transições suaves, tipografia moderna (Poppins) e uma paleta de cores coesa derivada do logo. O filtro de região (Goal: Navegação Primária) usa botões-pílula com um estado ativo verde vibrante para clareza. O formulário (Goal: Coleta de Dados) usa inputs estilizados, incluindo checkboxes e dropdowns customizados, para uma experiência polida e consistente.
           CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
         */
@@ -229,9 +229,8 @@
     <!-- Header -->
     <header id="header" class="bg-white/80 backdrop-blur-sm fixed top-0 left-0 w-full z-50 shadow-sm">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-12 w-12 rounded-full object-cover">
-                <span class="text-xl font-bold text-gray-800 hidden sm:block">FeirasDeRua<span class="text-[var(--cor-verde-marca)]">.com</span></span>
+            <a href="index.html" class="flex items-center">
+                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
             </a>
             <nav class="main-nav hidden md:flex items-center space-x-8 text-gray-600">
                 <a href="index.html" class="hover:text-[var(--cor-verde-marca)]">Início</a>
@@ -286,9 +285,9 @@
                     </div>
 
                     <div class="flex justify-center space-x-6 mt-8 text-gray-700">
-                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors text-3xl"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors text-3xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors text-3xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-twitter"></i></a>
                     </div>
                 </div>
             </div>
