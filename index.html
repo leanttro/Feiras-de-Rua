@@ -9,32 +9,28 @@
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Chosen Palette: "Vibrante e Natural"
-          Application Structure Plan: A estrutura HTML e de navegação do site original foi mantida para preservar 100% da funcionalidade. O plano foca em uma reestilização completa (reskin). A nova arquitetura visual estabelece o filtro de região como o elemento principal através de maior destaque (cores vibrantes, tamanho), seguido pelo formulário de cadastro, que foi redesenhado para ser um ponto focal de conversão. A navegação e a listagem de feiras foram refinadas para uma aparência mais limpa e moderna, melhorando a usabilidade geral sem alterar o fluxo do usuário.
-          Visualization & Content Choices: O formulário e os filtros foram recriados usando HTML/CSS puro para replicar as imagens de referência, evitando bibliotecas externas e garantindo performance. A meta "surpreender" foi alcançada com transições suaves, tipografia moderna (Poppins) e uma paleta de cores coesa derivada do logo. O filtro de região (Goal: Navegação Primária) usa botões-pílula com um estado ativo verde vibrante para clareza. O formulário (Goal: Coleta de Dados) usa inputs estilizados, incluindo checkboxes e dropdowns customizados, para uma experiência polida e consistente.
-          CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
-        */
-        
-        /* Paleta de Cores e Variáveis Globais */
+        /* Paleta de Cores e Variáveis Globais (Inspiradas no LOGO.png, com laranja substituído por preto) */
         :root {
-            --cor-verde-marca: #4CAF50;
-            --cor-laranja-marca: #FF8C00;
-            --cor-texto-principal: #374151;
-            --cor-texto-secundario: #6B7280;
-            --cor-fundo-geral: #F8F9FA;
-            --cor-fundo-container: #FFFFFF;
-            --cor-borda-input: #D1D5DB;
-            --cor-borda-foco: #4CAF50;
-            --cor-filtro-inativo-fundo: #E5E7EB;
-            --cor-checkbox-ativo: #3B82F6; 
-            --cor-sombra: rgba(0, 0, 0, 0.08);
-            --font-principal: 'Poppins', sans-serif;
+            --cor-preto-marca: #222222; /* Preto para substituir o laranja vibrante */
+            --cor-preto-escuro: #000000; /* Preto mais escuro para gradientes */
+            --cor-verde-claro: #8BC34A; /* Verde claro */
+            --cor-verde-escuro: #4CAF50; /* Verde escuro */
+            --cor-texto-principal: #2C3E50; /* Azul escuro quase preto para contraste */
+            --cor-texto-secundario: #7F8C8D; /* Cinza médio para detalhes */
+            --cor-fundo-geral: #ECF0F1; /* Cinza muito claro, quase branco */
+            --cor-fundo-container: #FFFFFF; /* Branco puro para cards/modais */
+            --cor-borda-input: #BDC3C7; /* Borda suave para inputs */
+            --cor-borda-foco: var(--cor-preto-marca); /* Preto para foco */
+            --cor-filtro-inativo-fundo: #DCE0E3; /* Fundo de filtro inativo */
+            --cor-sombra-leve: rgba(0, 0, 0, 0.08); /* Sombra sutil */
+            --cor-sombra-media: rgba(0, 0, 0, 0.15); /* Sombra mais pronunciada */
+            --font-principal: 'Poppins', sans-serif; /* Fonte principal */
         }
 
         /* Estilos Base */
@@ -42,189 +38,316 @@
             font-family: var(--font-principal);
             background-color: var(--cor-fundo-geral);
             color: var(--cor-texto-principal);
+            line-height: 1.6;
         }
 
         /* Header e Navegação */
         header {
-            transition: all 0.3s ease-in-out;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de animação suave */
         }
         header.scrolled {
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 6px -1px var(--cor-sombra);
-            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 6px 20px var(--cor-sombra-media);
+            backdrop-filter: blur(12px);
         }
+
+        /* Estilos para links de navegação */
         .main-nav a {
             position: relative;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease-out;
+            font-weight: 500;
         }
         .main-nav a::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 2px;
-            bottom: -4px;
+            height: 3px;
+            bottom: -8px; /* Mais abaixo para destaque */
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--cor-verde-marca);
-            transition: width 0.3s ease;
+            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
+            border-radius: 2px;
+            transition: width 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animação elástica */
         }
         .main-nav a:hover::after,
         .main-nav a.active::after {
             width: 100%;
         }
         .main-nav a.active {
-            color: var(--cor-verde-marca);
-            font-weight: 600;
+            color: var(--cor-preto-marca);
+            font-weight: 700;
+        }
+
+        /* Seção Hero */
+        #hero {
+            background: linear-gradient(135deg, var(--cor-verde-claro) 0%, var(--cor-verde-escuro) 100%); /* Gradiente de fundo */
+            color: var(--cor-fundo-container);
+            padding-top: 8rem; /* Ajuste para o header fixo */
+            padding-bottom: 6rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra no texto */
+            position: relative;
+            overflow: hidden; /* Para garantir que elementos internos não vazem */
+        }
+        #hero::before { /* Elemento decorativo */
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 4s infinite ease-in-out;
+        }
+        #hero::after { /* Outro elemento decorativo */
+            content: '';
+            position: absolute;
+            bottom: -70px;
+            right: -70px;
+            width: 250px;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: pulse 5s infinite reverse ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.8; }
+        }
+        #hero h1 {
+            font-size: 2.8rem; /* Tamanho maior para mobile */
+            font-weight: 800; /* Extra bold */
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            animation: fadeInSlideUp 1s ease-out;
+        }
+        #hero p {
+            font-size: 1.1rem;
+            font-weight: 300; /* Light */
+            margin-bottom: 2rem;
+            animation: fadeIn 1.5s ease-out;
         }
 
         /* Botões de Filtro */
         .filter-btn {
             background-color: var(--cor-filtro-inativo-fundo);
             color: var(--cor-texto-secundario);
-            transition: all 0.3s ease;
-            transform: scale(1);
-        }
-        .filter-btn:hover {
-            background-color: #D1D5DB;
-            color: var(--cor-texto-principal);
-            transform: scale(1.05);
-        }
-        .filter-btn.active {
-            background-color: var(--cor-verde-marca);
-            color: var(--cor-fundo-container);
-            font-weight: 600;
-            box-shadow: 0 4px 14px 0 rgba(76, 175, 80, 0.39);
-            transform: scale(1.05);
-        }
-
-        /* Estilos do Formulário de Cadastro */
-        .form-container {
-            background-color: var(--cor-fundo-container);
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px var(--cor-sombra), 0 10px 10px -5px var(--cor-sombra);
-            padding: 2.5rem;
-        }
-        .form-label {
-            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animação "pop" */
+            border-radius: 9999px; /* Pill shape */
+            font-size: 0.95rem;
+            padding: 0.8rem 1.8rem;
+            box-shadow: 0 3px 8px var(--cor-sombra-leve);
             font-weight: 500;
-            color: var(--cor-texto-principal);
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        .form-input, .form-textarea, .form-select {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--cor-borda-input);
-            border-radius: 8px;
-            background-color: #F9FAFB;
-            transition: all 0.3s ease;
-        }
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--cor-borda-foco);
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-            background-color: var(--cor-fundo-container);
-        }
-        
-        /* Custom Select (Dropdown) */
-        .select-wrapper {
-            position: relative;
-        }
-        .form-select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            padding-right: 2.5rem; 
-        }
-        .select-wrapper::after {
-            content: '▼';
-            font-size: 0.8rem;
-            color: var(--cor-texto-secundario);
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            transition: transform 0.3s ease;
-        }
-        .select-wrapper:focus-within::after {
-             transform: translateY(-50%) rotate(180deg);
-        }
-
-        /* Custom Checkbox */
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .checkbox-label {
-            display: flex;
-            align-items: center;
             cursor: pointer;
         }
-        .checkbox-input {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
+        .filter-btn:hover {
+            background-color: #CFD8DC;
+            color: var(--cor-texto-principal);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 20px var(--cor-sombra-media);
         }
-        .custom-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--cor-borda-input);
-            border-radius: 6px;
-            margin-right: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-        .custom-checkbox .icon {
-            display: none;
-            color: white;
-            font-size: 12px;
-        }
-        .checkbox-input:checked + .custom-checkbox {
-            background-color: var(--cor-checkbox-ativo);
-            border-color: var(--cor-checkbox-ativo);
-        }
-        .checkbox-input:checked + .custom-checkbox .icon {
-            display: block;
-        }
-        .checkbox-input:focus + .custom-checkbox {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        .filter-btn.active {
+            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
+            color: var(--cor-fundo-container);
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Sombra preta */
+            transform: translateY(-4px) scale(1.03);
         }
 
         /* Botão Principal */
         .btn-principal {
-            background-color: var(--cor-laranja-marca);
+            background-image: linear-gradient(to right, var(--cor-preto-marca), var(--cor-preto-escuro)); /* Gradiente de preto */
             color: var(--cor-fundo-container);
-            font-weight: 600;
-            padding: 0.875rem 1.5rem;
-            border-radius: 8px;
+            font-weight: 700;
+            padding: 1.1rem 2.5rem;
+            border-radius: 16px; /* Mais arredondado */
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 14px 0 rgba(255, 140, 0, 0.3);
+            letter-spacing: 0.08em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animação "pop" */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Sombra preta */
+            display: inline-block;
+            text-decoration: none; /* Remover sublinhado padrão */
         }
         .btn-principal:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px 0 rgba(255, 140, 0, 0.4);
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Sombra preta */
         }
         .btn-principal:active {
-            transform: translateY(-1px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Sombra preta */
         }
         
         /* Card da Feira */
         .feira-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--cor-fundo-container);
+            border-radius: 20px; /* Cantos bem arredondados */
+            box-shadow: 0 10px 30px var(--cor-sombra-media); /* Sombra mais profunda */
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease-out;
+            display: flex; /* Para layout interno */
+            flex-direction: column;
         }
         .feira-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px -5px var(--cor-sombra);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px var(--cor-sombra-media);
+        }
+        .feira-card img {
+            width: 100%;
+            height: 200px; /* Altura fixa para imagens */
+            object-fit: cover;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .feira-card .p-6 {
+            padding: 1.5rem;
+            flex-grow: 1; /* Permite que o conteúdo se expanda */
+        }
+        .feira-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--cor-texto-principal);
+            margin-bottom: 0.75rem;
+        }
+        .feira-card p {
+            font-size: 0.9rem;
+            color: var(--cor-texto-secundario);
+            margin-bottom: 0.5rem;
+        }
+        .feira-card .fa-map-marker-alt, .feira-card .fa-calendar-alt {
+            color: var(--cor-verde-escuro); /* Ícones verdes */
+            margin-right: 0.5rem;
+        }
+        .feira-card .flex-wrap span { /* Tags de categoria */
+            background-color: var(--cor-verde-claro); /* Fundo verde claro */
+            color: var(--cor-fundo-container);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px; /* Pill shape */
+            transition: background-color 0.3s ease;
+        }
+        .feira-card .flex-wrap span:hover {
+            background-color: var(--cor-verde-escuro);
         }
 
+        /* Estilos do Menu Hamburguer (Mobile) */
+        .hamburger-menu-icon {
+            display: block; /* Visível apenas em mobile */
+            cursor: pointer;
+            font-size: 2.2rem; /* Ícone maior */
+            color: var(--cor-preto-marca); /* Cor do ícone */
+            transition: transform 0.3s ease-out;
+            padding: 0.5rem; /* Área de clique maior */
+        }
+        .hamburger-menu-icon:hover {
+            transform: scale(1.15);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Inicia fora da tela */
+            width: 100%;
+            max-width: 320px; /* Largura máxima para o menu */
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.98); /* Fundo quase opaco */
+            backdrop-filter: blur(20px); /* Blur mais intenso */
+            z-index: 60; /* Acima do header */
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+            transition: right 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Transição elástica */
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 2rem;
+            border-top-left-radius: 30px; /* Cantos arredondados */
+            border-bottom-left-radius: 30px;
+        }
+        .mobile-nav.open {
+            right: 0; /* Desliza para dentro da tela */
+        }
+
+        .mobile-nav .close-btn {
+            position: absolute;
+            top: 1.8rem;
+            right: 1.8rem;
+            font-size: 2.5rem; /* Ícone maior */
+            color: var(--cor-texto-principal);
+            cursor: pointer;
+            transition: transform 0.3s ease-out, color 0.3s ease-out;
+        }
+        .mobile-nav .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            color: var(--cor-preto-marca);
+        }
+
+        .mobile-nav-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 5rem;
+        }
+        .mobile-nav-list li {
+            margin-bottom: 2rem;
+        }
+        .mobile-nav-list a {
+            font-size: 1.8rem; /* Links maiores */
+            font-weight: 600;
+            color: var(--cor-texto-principal);
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .mobile-nav-list a:hover,
+        .mobile-nav-list a.active {
+            color: var(--cor-preto-marca);
+            transform: translateX(10px); /* Desliza ao hover */
+        }
+
+        /* Overlay para quando o menu mobile estiver aberto */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Mais escuro */
+            z-index: 55;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out;
+        }
+        .overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Animações Gerais */
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsividade para desktop: esconder menu hamburguer e mostrar nav principal */
+        @media (min-width: 768px) { /* md breakpoint */
+            .hamburger-menu-icon {
+                display: none;
+            }
+            .main-nav {
+                display: flex !important; /* Força a exibição no desktop */
+            }
+            .mobile-nav, .overlay {
+                display: none;
+            }
+            #hero h1 {
+                font-size: 4rem; /* Tamanho maior para desktop */
+            }
+            #hero p {
+                font-size: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -234,33 +357,52 @@
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="flex items-center">
                 <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-16 w-16 object-cover">
-                <!-- Adicionado o texto "FeirasDeRua.com" ao lado do logo, com cores personalizadas -->
-                <span class="text-2xl font-bold ml-2 hidden sm:block">
-                    <span class="text-[var(--cor-laranja-marca)]">FeirasDeRua</span><span class="text-gray-800">.com</span>
-                </span>
+                <!-- O texto "FeirasDeRua.com" foi removido daqui, mantendo apenas o logo -->
             </a>
-            <nav class="main-nav hidden md:flex items-center space-x-8 text-gray-600">
-                <a href="index.html" class="hover:text-[var(--cor-verde-marca)]">Início</a>
-                <a href="gastronomia.html" class="hover:text-[var(--cor-verde-marca)]">Feiras de Rua</a>
-                <a href="feiras-livres.html" class="hover:text-[var(--cor-verde-marca)]">Feiras Livres</a>
-                <a href="anuncie.html" class="hover:text-[var(--cor-verde-marca)]">Anúncios</a>
-                <a href="sobre.html" class="hover:text-[var(--cor-verde-marca)]">Sobre</a>
-                <a href="contato.html" class="hover:text-[var(--cor-verde-marca)]">Contato</a>
+            <!-- Menu Hamburguer para Mobile -->
+            <div id="hamburger-icon" class="hamburger-menu-icon md:hidden">
+                <i class="fas fa-bars"></i>
+            </div>
+            <!-- Navegação principal para Desktop -->
+            <nav class="main-nav hidden md:flex items-center space-x-8 text-[var(--cor-texto-secundario)]">
+                <a href="index.html" class="hover:text-[var(--cor-preto-marca)]">Início</a>
+                <a href="gastronomia.html" class="hover:text-[var(--cor-preto-marca)]">Feiras de Rua</a>
+                <a href="feiras-livres.html" class="hover:text-[var(--cor-preto-marca)]">Feiras Livres</a>
+                <a href="anuncie.html" class="hover:text-[var(--cor-preto-marca)]">Anúncios</a>
+                <a href="sobre.html" class="hover:text-[var(--cor-preto-marca)]">Sobre</a>
+                <a href="contato.html" class="hover:text-[var(--cor-preto-marca)]">Contato</a>
             </nav>
         </div>
     </header>
 
+    <!-- Menu Mobile (Off-canvas) -->
+    <div id="mobile-menu" class="mobile-nav">
+        <div id="close-mobile-menu" class="close-btn">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul class="mobile-nav-list">
+            <li><a href="index.html" class="mobile-nav-link">Início</a></li>
+            <li><a href="gastronomia.html" class="mobile-nav-link">Feiras de Rua</a></li>
+            <li><a href="feiras-livres.html" class="mobile-nav-link">Feiras Livres</a></li>
+            <li><a href="anuncie.html" class="mobile-nav-link">Anúncios</a></li>
+            <li><a href="sobre.html" class="mobile-nav-link">Sobre</a></li>
+            <li><a href="contato.html" class="mobile-nav-link">Contato</a></li>
+        </ul>
+    </div>
+    <!-- Overlay para o menu mobile -->
+    <div id="mobile-menu-overlay" class="overlay"></div>
+
     <main>
         <!-- Seção Hero -->
-        <section id="hero" class="pt-32 pb-20 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">
-                    A sua feira livre de São Paulo, <br class="hidden md:block"> a um <span class="text-[var(--cor-verde-marca)]">clique</span> de distância.
+        <section id="hero" class="pt-32 pb-20 text-center">
+            <div class="container mx-auto px-6">
+                <h1 class="font-bold mb-4">
+                    A sua feira livre de São Paulo, <br class="hidden md:block"> a um <span class="text-[var(--cor-preto-marca)]">clique</span> de distância.
                 </h1>
-                <p class="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+                <p class="max-w-3xl mx-auto">
                     Explore, descubra e apaixone-se pelas feiras de rua da nossa cidade. Encontre produtos frescos, artesanato local e muito mais!
                 </p>
-                <a href="#feiras" class="btn-principal text-lg">Encontrar minha feira agora!</a>
+                <a href="#feiras" class="btn-principal mt-8">Encontrar minha feira agora!</a>
             </div>
         </section>
 
@@ -268,27 +410,27 @@
         <section id="feiras" class="py-20">
             <div class="container mx-auto px-6">
                 <!-- Filtro Principal por Região -->
-                <div class="mb-12 p-6 bg-white rounded-xl shadow-md">
-                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800">Escolha sua região:</h3>
+                <div class="mb-12 p-6 bg-[var(--cor-fundo-container)] rounded-2xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[var(--cor-texto-principal)]">Escolha sua região:</h3>
                     <div id="region-filter-buttons" class="flex flex-wrap justify-center gap-3">
-                        <button onclick="window.filterFeiras('Toda SP', null)" class="filter-btn active text-lg px-8 py-3 rounded-full">Toda SP</button>
-                        <button onclick="window.filterFeiras('Centro', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Centro</button>
-                        <button onclick="window.filterFeiras('Zona Leste', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Leste</button>
-                        <button onclick="window.filterFeiras('Zona Norte', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Norte</button>
-                        <button onclick="window.filterFeiras('Zona Oeste', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Oeste</button>
-                        <button onclick="window.filterFeiras('Zona Sul', null)" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Sul</button>
+                        <button onclick="window.filterFeiras('Toda SP', null)" class="filter-btn active">Toda SP</button>
+                        <button onclick="window.filterFeiras('Centro', null)" class="filter-btn">Centro</button>
+                        <button onclick="window.filterFeiras('Zona Leste', null)" class="filter-btn">Zona Leste</button>
+                        <button onclick="window.filterFeiras('Zona Norte', null)" class="filter-btn">Zona Norte</button>
+                        <button onclick="window.filterFeiras('Zona Oeste', null)" class="filter-btn">Zona Oeste</button>
+                        <button onclick="window.filterFeiras('Zona Sul', null)" class="filter-btn">Zona Sul</button>
                     </div>
                 </div>
 
                 <!-- Filtro por Categoria -->
                 <div class="mb-12">
-                    <h4 class="text-xl font-semibold text-center mb-4 text-gray-700">Ou filtre por categoria:</h4>
+                    <h4 class="text-xl font-semibold text-center mb-4 text-[var(--cor-texto-principal)]">Ou filtre por categoria:</h4>
                     <div id="category-filter-buttons" class="flex flex-wrap justify-center gap-2">
-                        <button onclick="window.filterFeiras(null, 'Todas')" class="filter-btn active px-4 py-2 rounded-full">Todas</button>
-                        <button onclick="window.filterFeiras(null, 'Orgânicos')" class="filter-btn px-4 py-2 rounded-full">Orgânicos</button>
-                        <button onclick="window.filterFeiras(null, 'Artesanato')" class="filter-btn px-4 py-2 rounded-full">Artesanato</button>
-                        <button onclick="window.filterFeiras(null, 'Gastronomia')" class="filter-btn px-4 py-2 rounded-full">Gastronomia</button>
-                        <button onclick="window.filterFeiras(null, 'Flores')" class="filter-btn px-4 py-2 rounded-full">Flores</button>
+                        <button onclick="window.filterFeiras(null, 'Todas')" class="filter-btn active">Todas</button>
+                        <button onclick="window.filterFeiras(null, 'Orgânicos')" class="filter-btn">Orgânicos</button>
+                        <button onclick="window.filterFeiras(null, 'Artesanato')" class="filter-btn">Artesanato</button>
+                        <button onclick="window.filterFeiras(null, 'Gastronomia')" class="filter-btn">Gastronomia</button>
+                        <button onclick="window.filterFeiras(null, 'Flores')" class="filter-btn">Flores</button>
                     </div>
                 </div>
 
@@ -301,13 +443,13 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
+    <footer class="bg-[var(--cor-texto-principal)] text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2024 FeirasDeRua.com - Todos os direitos reservados.</p>
             <div class="flex justify-center space-x-4 mt-4">
-                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-[var(--cor-preto-marca)] transition-colors"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
     </footer>
@@ -339,6 +481,14 @@
         const categoryFilterButtons = document.querySelectorAll('#category-filter-buttons .filter-btn');
         const header = document.getElementById('header');
 
+        // Elementos do menu mobile
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+
         // Autenticação no Firebase (anônima ou com token)
         onAuthStateChanged(auth, async (user) => {
             if (!authInitialized) { // Garante que a lógica abaixo só rode uma vez para a inicialização
@@ -348,7 +498,9 @@
                     isAuthReady = true;
                     // Trigger initial data load and UI updates
                     window.filterFeiras(currentRegion, currentCategory);
+                    // Ativa o link "Início" na navegação principal e mobile
                     document.querySelector('.main-nav a[href="index.html"]').classList.add('active');
+                    document.querySelector('.mobile-nav-list a[href="index.html"]').classList.add('active');
                 } else {
                     try {
                         if (initialAuthToken) {
@@ -363,7 +515,9 @@
                         isAuthReady = true;
                         // Trigger initial data load and UI updates
                         window.filterFeiras(currentRegion, currentCategory);
+                        // Ativa o link "Início" na navegação principal e mobile
                         document.querySelector('.main-nav a[href="index.html"]').classList.add('active');
+                        document.querySelector('.mobile-nav-list a[href="index.html"]').classList.add('active');
                     } catch (error) {
                         console.error("Erro na autenticação Firebase:", error);
                         isAuthReady = false;
@@ -377,19 +531,19 @@
         function renderFeiras(feiras) {
             feirasList.innerHTML = '';
             if (feiras.length === 0) {
-                feirasList.innerHTML = `<p class="text-gray-600 col-span-full text-center">Nenhuma feira encontrada com os filtros selecionados.</p>`;
+                feirasList.innerHTML = `<p class="text-[var(--cor-texto-secundario)] col-span-full text-center text-lg mt-8">Nenhuma feira encontrada com os filtros selecionados.</p>`;
                 return;
             }
             feiras.forEach(feira => {
                 const card = `
-                    <div class="feira-card bg-white rounded-lg shadow-lg overflow-hidden">
-                        <img src="${feira.imagem}" alt="Foto da ${feira.nome}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E5E7EB/374151?text=Imagem+Indisponível';">
+                    <div class="feira-card">
+                        <img src="${feira.imagem}" alt="Foto da ${feira.nome}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/${encodeURIComponent('DCE0E3')}/${encodeURIComponent('7F8C8D')}?text=Imagem+Indisponível';">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-gray-800">${feira.nome}</h3>
-                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-map-marker-alt mr-2 text-[var(--cor-verde-marca)]"></i>${feira.endereco}</p>
-                            <p class="text-sm text-gray-500 mb-4"><i class="fas fa-calendar-alt mr-2 text-[var(--cor-verde-marca)]"></i>${feira.dias.join(', ')}</p>
-                            <p class="text-gray-600 mb-4 text-sm">${feira.descricao}</p>
-                            <div class="flex flex-wrap gap-2">
+                            <h3>${feira.nome}</h3>
+                            <p><i class="fas fa-map-marker-alt"></i>${feira.endereco}</p>
+                            <p><i class="fas fa-calendar-alt"></i>${feira.dias.join(', ')}</p>
+                            <p class="text-base">${feira.descricao}</p>
+                            <div class="flex flex-wrap gap-2 mt-4">
                                 ${feira.categorias.map(cat => `<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${cat}</span>`).join('')}
                             </div>
                         </div>
@@ -405,7 +559,7 @@
                 return;
             }
 
-            // CORREÇÃO CRÍTICA: Acessando a coleção no caminho correto para as regras do Firestore
+            // Acessando a coleção no caminho correto para as regras do Firestore
             const feirasCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'feiras');
             let q = query(feirasCollectionRef, where("status", "==", "approved")); // Apenas feiras aprovadas
 
@@ -455,13 +609,19 @@
             window.listenForFeiras();
         }
 
-        document.querySelectorAll('.main-nav a').forEach(link => {
+        // Lógica para rolagem suave para seções internas
+        document.querySelectorAll('.main-nav a, .mobile-nav-list a').forEach(link => {
             link.addEventListener('click', function (e) {
                 // Apenas para links internos da mesma página (como o "Encontrar minha feira agora!")
                 if (this.getAttribute('href').startsWith('#')) {
                     e.preventDefault();
+                    // Remove 'active' de todos os links de navegação principal (desktop)
                     document.querySelectorAll('.main-nav a').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
+                    // Remove 'active' de todos os links de navegação mobile
+                    document.querySelectorAll('.mobile-nav-list a').forEach(l => l.classList.remove('active'));
+                    
+                    this.classList.add('active'); // Adiciona 'active' ao link clicado
+                    
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
                     if (targetSection) {
@@ -472,10 +632,14 @@
                             behavior: 'smooth'
                         });
                     }
+                    // Fecha o menu mobile se estiver aberto
+                    mobileMenu.classList.remove('open');
+                    mobileMenuOverlay.classList.remove('open');
                 }
             });
         });
 
+        // Lógica para ativar o link de navegação da seção visível (apenas para a página index)
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
@@ -483,24 +647,40 @@
                 header.classList.remove('scrolled');
             }
             
-            // Lógica para ativar o link de navegação da seção visível (apenas para a página index)
             const sections = document.querySelectorAll('main section');
             let currentSectionId = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - header.offsetHeight - 25;
-                if (window.scrollY >= sectionTop) {
+                const sectionBottom = sectionTop + section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
                     currentSectionId = '#' + section.id;
                 }
             });
 
-            document.querySelectorAll('.main-nav a').forEach(link => {
+            document.querySelectorAll('.main-nav a, .mobile-nav-list a').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === 'index.html' && currentSectionId === '#hero') {
                      link.classList.add('active');
-                } else if (link.getAttribute('href') === 'index.html' && currentSectionId === '#feiras') {
+                } else if (link.getAttribute('href') === '#feiras' && currentSectionId === '#feiras') {
                     link.classList.add('active');
                 }
             });
+        });
+
+        // Event listeners para o menu hamburguer
+        hamburgerIcon.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            mobileMenuOverlay.classList.add('open');
+        });
+
+        closeMobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
+        });
+
+        mobileMenuOverlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
         });
 
     </script>
