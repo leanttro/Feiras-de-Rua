@@ -492,6 +492,14 @@
         const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
+        // --- DEBUGGING: Verificar se os elementos foram encontrados ---
+        console.log('--- Debugging Menu Elements (index.html) ---');
+        console.log('hamburgerIcon:', hamburgerIcon);
+        console.log('mobileMenu:', mobileMenu);
+        console.log('closeMobileMenuBtn:', closeMobileMenuBtn);
+        console.log('mobileMenuOverlay:', mobileMenuOverlay);
+        // --- FIM DEBUGGING ---
+
 
         // Autenticação no Firebase (anônima ou com token)
         onAuthStateChanged(auth, async (user) => {
@@ -676,16 +684,22 @@
             console.log('Hamburger icon clicked!'); // Debugging line
             mobileMenu.classList.add('open');
             mobileMenuOverlay.classList.add('open');
+            console.log('mobileMenu classes after click:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after click:', mobileMenuOverlay.classList);
         });
 
         closeMobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.remove('open');
             mobileMenuOverlay.classList.remove('open');
+            console.log('mobileMenu classes after close:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after close:', mobileMenuOverlay.classList);
         });
 
         mobileMenuOverlay.addEventListener('click', () => {
             mobileMenu.classList.remove('open');
             mobileMenuOverlay.classList.remove('open');
+            console.log('mobileMenu classes after overlay click:', mobileMenu.classList);
+            console.log('mobileMenuOverlay classes after overlay click:', mobileMenuOverlay.classList);
         });
 
     </script>
