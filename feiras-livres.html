@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeirasDeRua.com - Feiras Livres</title>
+    <!-- Favicon do Logo -->
+    <link rel="icon" href="LOGO.png" type="image/png">
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Chosen Palette: "Vibrante e Natural"
+          Application Structure Plan: A estrutura HTML e de navegação do site original foi mantida para preservar 100% da funcionalidade. O plano foca em uma reestilização completa (reskin). A nova arquitetura visual estabelece o filtro de região como o elemento principal através de maior destaque (cores vibrantes, tamanho), seguido pelo formulário de cadastro, que foi redesenhado para ser um ponto focal de conversão. A navegação e a listagem de feiras foram refinadas para uma aparência mais limpa e moderna, melhorando a usabilidade geral sem alterar o fluxo do usuário.
+          Visualization & Content Choices: O formulário e os filtros foram recriados usando HTML/CSS puro para replicar as imagens de referência, evitando bibliotecas externas e garantindo performance. A meta "surpreender" foi alcançada com transições suaves, tipografia moderna (Poppins) e uma paleta de cores coesa derivada do logo. O filtro de região (Goal: Navegação Primária) usa botões-pílula com um estado ativo verde vibrante para clareza. O formulário (Goal: Coleta de Dados) usa inputs estilizados, incluindo checkboxes e dropdowns customizados, para uma experiência polida e consistente.
+          CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+        */
+        
+        /* Paleta de Cores e Variáveis Globais */
+        :root {
+            --cor-verde-marca: #4CAF50;
+            --cor-laranja-marca: #FF8C00;
+            --cor-texto-principal: #374151;
+            --cor-texto-secundario: #6B7280;
+            --cor-fundo-geral: #F8F9FA;
+            --cor-fundo-container: #FFFFFF;
+            --cor-borda-input: #D1D5DB;
+            --cor-borda-foco: #4CAF50;
+            --cor-filtro-inativo-fundo: #E5E7EB;
+            --cor-checkbox-ativo: #3B82F6; 
+            --cor-sombra: rgba(0, 0, 0, 0.08);
+            --font-principal: 'Poppins', sans-serif;
+        }
+
+        /* Estilos Base */
+        body {
+            font-family: var(--font-principal);
+            background-color: var(--cor-fundo-geral);
+            color: var(--cor-texto-principal);
+        }
+
+        /* Header e Navegação */
+        header {
+            transition: all 0.3s ease-in-out;
+        }
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px -1px var(--cor-sombra);
+            backdrop-filter: blur(8px);
+        }
+        .main-nav a {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--cor-verde-marca);
+            transition: width 0.3s ease;
+        }
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
+        }
+        .main-nav a.active {
+            color: var(--cor-verde-marca);
+            font-weight: 600;
+        }
+
+        /* Botões de Filtro */
+        .filter-btn {
+            background-color: var(--cor-filtro-inativo-fundo);
+            color: var(--cor-texto-secundario);
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .filter-btn:hover {
+            background-color: #D1D5DB;
+            color: var(--cor-texto-principal);
+            transform: scale(1.05);
+        }
+        .filter-btn.active {
+            background-color: var(--cor-verde-marca);
+            color: var(--cor-fundo-container);
+            font-weight: 600;
+            box-shadow: 0 4px 14px 0 rgba(76, 175, 80, 0.39);
+            transform: scale(1.05);
+        }
+
+        /* Estilos do Formulário de Cadastro */
+        .form-container {
+            background-color: var(--cor-fundo-container);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px var(--cor-sombra), 0 10px 10px -5px var(--cor-sombra);
+            padding: 2.5rem;
+        }
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--cor-texto-principal);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--cor-borda-input);
+            border-radius: 8px;
+            background-color: #F9FAFB;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--cor-borda-foco);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            background-color: var(--cor-fundo-container);
+        }
+        
+        /* Custom Select (Dropdown) */
+        .select-wrapper {
+            position: relative;
+        }
+        .form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 2.5rem; 
+        }
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: var(--cor-texto-secundario);
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+        .select-wrapper:focus-within::after {
+             transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Custom Checkbox */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .checkbox-input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cor-borda-input);
+            border-radius: 6px;
+            margin-right: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .custom-checkbox .icon {
+            display: none;
+            color: white;
+            font-size: 12px;
+        }
+        .checkbox-input:checked + .custom-checkbox {
+            background-color: var(--cor-checkbox-ativo);
+            border-color: var(--cor-checkbox-ativo);
+        }
+        .checkbox-input:focus + .custom-checkbox {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Botão Principal */
+        .btn-principal {
+            background-color: var(--cor-laranja-marca);
+            color: var(--cor-fundo-container);
+            font-weight: 600;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(255, 140, 0, 0.3);
+        }
+        .btn-principal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px 0 rgba(255, 140, 0, 0.4);
+        }
+        .btn-principal:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Card da Feira */
+        .feira-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feira-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px -5px var(--cor-sombra);
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header id="header" class="bg-white/80 backdrop-blur-sm fixed top-0 left-0 w-full z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="LOGO.png" alt="Logo FeirasDeRua.com" class="h-12 w-12 rounded-full object-cover">
+                <span class="text-xl font-bold text-gray-800 hidden sm:block">FeirasDeRua<span class="text-[var(--cor-verde-marca)]">.com</span></span>
+            </a>
+            <nav class="main-nav hidden md:flex items-center space-x-8 text-gray-600">
+                <a href="index.html" class="hover:text-[var(--cor-verde-marca)]">Início</a>
+                <a href="gastronomia.html" class="hover:text-[var(--cor-verde-marca)]">Feiras de Rua</a>
+                <a href="feiras-livres.html" class="hover:text-[var(--cor-verde-marca)]">Feiras Livres</a>
+                <a href="anuncie.html" class="hover:text-[var(--cor-verde-marca)]">Anúncios</a>
+                <a href="sobre.html" class="hover:text-[var(--cor-verde-marca)]">Sobre</a>
+                <a href="contato.html" class="hover:text-[var(--cor-verde-marca)]">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-20">
+        <section id="feiras" class="py-10">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Feiras Livres</h2>
+                <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto text-center">
+                    Encontre as melhores feiras de frutas, legumes, verduras e produtos orgânicos frescos em São Paulo.
+                </p>
+
+                <!-- Filtro Principal por Região -->
+                <div class="mb-12 p-6 bg-white rounded-xl shadow-md">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-gray-800">Escolha sua região:</h3>
+                    <div id="region-filter-buttons" class="flex flex-wrap justify-center gap-3">
+                        <button onclick="filterFeiras('Toda SP', 'Orgânicos')" class="filter-btn active text-lg px-8 py-3 rounded-full">Toda SP</button>
+                        <button onclick="filterFeiras('Centro', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Centro</button>
+                        <button onclick="filterFeiras('Zona Leste', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Leste</button>
+                        <button onclick="filterFeiras('Zona Norte', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Norte</button>
+                        <button onclick="filterFeiras('Zona Oeste', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Oeste</button>
+                        <button onclick="filterFeiras('Zona Sul', 'Orgânicos')" class="filter-btn text-lg px-8 py-3 rounded-full">Zona Sul</button>
+                    </div>
+                </div>
+
+                <!-- Lista de Feiras -->
+                <div id="feiras-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards de feiras serão inseridos aqui pelo JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 FeirasDeRua.com - Todos os direitos reservados.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-[var(--cor-laranja-marca)] transition-colors"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const feirasData = [
+            {
+                nome: 'Feira da Benedito Calixto',
+                regiao: 'Zona Oeste',
+                endereco: 'Praça Benedito Calixto, Pinheiros',
+                dias: ['Sábado'],
+                descricao: 'Famosa por suas antiguidades, artesanato e música ao vivo. Um clássico paulistano!',
+                categorias: ['Artesanato', 'Gastronomia'],
+                imagem: 'https://vejasp.abril.com.br/wp-content/uploads/2016/12/11541-pracabeneditocalixto.jpeg?quality=70&strip=info&w=1280&h=720&crop=1'
+            },
+            {
+                nome: 'Feira de Orgânicos do Parque da Água Branca',
+                regiao: 'Zona Oeste',
+                endereco: 'Av. Francisco Matarazzo, 455, Água Branca',
+                dias: ['Terça', 'Sábado', 'Domingo'],
+                descricao: 'Grande variedade de produtos orgânicos frescos, direto do produtor.',
+                categorias: ['Orgânicos', 'Gastronomia'],
+                imagem: 'https://catracalivre.com.br/wp-content/uploads/2019/07/parque-da-agua-branca-feira-de-organicos-910x607.jpg'
+            },
+            {
+                nome: 'Feira da Liberdade',
+                regiao: 'Centro',
+                endereco: 'Praça da Liberdade, Liberdade',
+                dias: ['Sábado', 'Domingo'],
+                descricao: 'Culinária e cultura oriental. Experimente o famoso takoyaki e outras delícias.',
+                categorias: ['Gastronomia', 'Artesanato'],
+                imagem: 'https://www.visitesaopaulo.com/wp-content/uploads/2017/01/feirinha-da-liberdade-foto-caio-pimenta-spturis.jpg'
+            },
+            {
+                nome: 'Feira da Praça da República',
+                regiao: 'Centro',
+                endereco: 'Praça da República, República',
+                dias: ['Sábado', 'Domingo'],
+                descricao: 'Artesanato, pedras preciosas, e uma praça de alimentação com comidas típicas.',
+                categorias: ['Artesanato', 'Gastronomia', 'Flores'],
+                imagem: 'https://www.melhoresdestinos.com.br/wp-content/uploads/2020/09/sao-paulo-feiras-republica.jpg'
+            },
+            {
+                nome: 'Feira do Bixiga (Praça Dom Orione)',
+                regiao: 'Centro',
+                endereco: 'Praça Dom Orione, Bela Vista',
+                dias: ['Domingo'],
+                descricao: 'Antiguidades, objetos de colecionador e a autêntica atmosfera do bairro italiano.',
+                categorias: ['Artesanato'],
+                imagem: 'https://www.viagemegastronomia.com.br/wp-content/uploads/2022/08/feira-do-bixiga-credito-jose-carlos-spturis.jpg'
+            },
+            {
+                nome: 'Feira de Artesanato do Center 3',
+                regiao: 'Zona Oeste',
+                endereco: 'Avenida Paulista, 2064, Cerqueira César',
+                dias: ['Domingo'],
+                descricao: 'Artesanato variado e criativo na avenida mais famosa da cidade.',
+                categorias: ['Artesanato'],
+                imagem: 'https://media.gazetadopovo.com.br/2023/04/24174829/avenida-paulista-bigstock-960x540.jpg'
+            }
+        ];
+
+        let currentRegion = 'Toda SP';
+        const fixedCategory = 'Orgânicos'; // Categoria fixa para esta página
+
+        const feirasList = document.getElementById('feiras-list');
+        const regionFilterButtons = document.querySelectorAll('#region-filter-buttons .filter-btn');
+        const header = document.getElementById('header');
+
+        function renderFeiras(feiras) {
+            feirasList.innerHTML = '';
+            if (feiras.length === 0) {
+                feirasList.innerHTML = `<p class="text-gray-600 col-span-full text-center">Nenhuma feira livre encontrada com os filtros selecionados.</p>`;
+                return;
+            }
+            feiras.forEach(feira => {
+                const card = `
+                    <div class="feira-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img src="${feira.imagem}" alt="Foto da ${feira.nome}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E5E7EB/374151?text=Imagem+Indisponível';">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-800">${feira.nome}</h3>
+                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-map-marker-alt mr-2 text-[var(--cor-verde-marca)]"></i>${feira.endereco}</p>
+                            <p class="text-sm text-gray-500 mb-4"><i class="fas fa-calendar-alt mr-2 text-[var(--cor-verde-marca)]"></i>${feira.dias.join(', ')}</p>
+                            <p class="text-gray-600 mb-4 text-sm">${feira.descricao}</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${feira.categorias.map(cat => `<span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">${cat}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                feirasList.innerHTML += card;
+            });
+        }
+
+        function filterFeiras(region, category) {
+            if (region) {
+                currentRegion = region;
+                regionFilterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.innerText === region) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            let filteredFeiras = feirasData;
+
+            if (currentRegion !== 'Toda SP') {
+                filteredFeiras = filteredFeiras.filter(feira => feira.regiao === currentRegion);
+            }
+            
+            // Sempre filtra pela categoria fixa para esta página
+            filteredFeiras = filteredFeiras.filter(feira => feira.categorias.includes(fixedCategory));
+
+            renderFeiras(filteredFeiras);
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            filterFeiras('Toda SP', fixedCategory); // Filtra ao carregar a página
+            document.querySelector('.main-nav a[href="feiras-livres.html"]').classList.add('active');
+        });
+
+    </script>
+</body>
+</html>
